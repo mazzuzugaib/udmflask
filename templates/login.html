@@ -1,0 +1,38 @@
+{% extends 'padrao.html' %}
+
+{% block conteudo %}
+
+<!-flash messages para informar o usuário sobre o login errado1->
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class='list-unstyled'>
+        {% for message in messages %}
+            <li class="alert alert-danger">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+    <h1>Login</h1>
+    <div class="container">
+        <form method="POST" action="/autenticar">
+            <fieldset>
+            <legend>Informe seus dados</legend>
+            <div class='input-group mb-3'>
+                <label class='input-group-text' id="inputGroup-sizing-default">Usuário:</label>
+                <input type="text"  name="usuario" id="usuario" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <br>
+            <div class='input-group mb-3'>
+                <label class='input-group-text' id="inputGroup-sizing-default">Senha:</label>
+                <input type="password"  name="senha" id="senha" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <br>
+            <div>
+                <button type="submit" class="btn btn-success">Entrar</button>
+            </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'padrao.html' %}
+
+{% block conteudo %}
+<h1>{{titulo}}</h1>
+<table class="table table-striped-columns">
+  <thead class="table-dark">
+      <tr>
+          <th>Música</th>
+          <th>Artista</th>
+          <th>Gênero</th>
+      </tr>
+  </thead>
+  <tbody>
+  {% for musica in musicas %}
+      <tr>
+          <td>{{musica.titulo}}</td>
+          <td>{{musica.artista}}</td>
+          <td>{{musica.genero}}</td>
+      </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
