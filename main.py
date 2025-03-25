@@ -1,5 +1,3 @@
-#testando update de versao pelo git hub
-#teste 2
 from flask import Flask, render_template, request, redirect, session, flash, url_for
 
 # Classe Musica
