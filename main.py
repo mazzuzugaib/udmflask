@@ -1,34 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
-# Classe Musica
-class Musica:
-    def __init__(self, titulo, artista, genero):
-        self.titulo = titulo
-        self.artista = artista
-        self.genero = genero
-
-musica1 = Musica('Ouro de Tolo', 'Raul Seixas', 'Rock')
-musica2 = Musica('Garganta', 'Ana Carolina', 'MPB')
-musica3 = Musica('Radioactive', 'Imagine Dragons', 'Rock')
-
-lista_musicas = [musica1, musica2, musica3]
-
-# classe para instanciar usuarios
-class Usuario:
-    def __init__(self, nome, login, senha):
-        self.nome = nome
-        self.login = login
-        self.senha = senha
-
-#instanciando usuarios
-user1 = Usuario('Lorem Ipsum', 'lorem', 'ipsum')
-user2 = Usuario('Dolor Sit', 'dolor', 'sit')
-user3 = Usuario('Amet Consectetur', 'amet', 'consectetur')
-
-#atribuindo chave para o usuario dentro de um dicionario
-usuarios = {user1.login: user1,
-            user2.login: user2,
-            user3.login: user3}
 
 app = Flask(__name__)
 
@@ -46,6 +17,25 @@ app.config['SQLALCHEMY_DATABASE_URI'] = '{SGBD}://{usuario}:{senha}@{servidor}/{
 #instanciando o banco de dados
 db = SQLAlchemy(app)
 
+#classes integradas com o bd
+class Musica(db.Model):
+    id_musica = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    titulo = db.Column(db.String(50), nullable=False)
+    artista = db.Column(db.String(50), nullable=False)
+    genero = db.Column(db.String(50), nullable=False)
+
+    def __repr__(self):
+        return '<Name %r>' % self.name
+
+class Usuario(db.Model):
+    id_usuarioo = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome_us = db.Column(db.String(40), nullable=False)
+    login_us = db.Column(db.String(10), nullable=False)
+    senha_us = db.Column(db.String(10), nullable=False)
+
+    def __repr__(self):
+        return '<Name %r>' % self.name
+    
 @app.route('/')
 def lista_musica():
     if 'usuario_in' not in session or session['usuario_in'] == None:
