@@ -1,6 +1,8 @@
 create database play_musica;
 use play_musica;
-
+/*selects*/
+select * from musica;
+select * from usuario;
 /*tabela das musicas que serao cadastradas*/
 create table musica(
 	id int primary key auto_increment not null,
@@ -12,7 +14,7 @@ values ('Saturday Night', 'Elton John', 'Rock'),
 	('Bohemian Rhapsody', 'Queen', 'Rock'),  
     ('Billie Jean', 'Michael Jackson', 'Pop'),  
     ('Shape of You', 'Ed Sheeran', 'Pop');  
-select * from musica;
+
 delete from musica where id = 1;
 
 /*tabela dos usuarios*/
@@ -27,3 +29,6 @@ insert into usuario(nome_us, login_us, senha_us)
 values ('Lorem Ipsum', 'lorem', 'ipsum'),
 ('Dolor sit', 'Dolor', 'Sit'),
 ('Amet Consectetur', 'Amet', 'Consec');
+
+alter table usuario
+add unique(login_us);

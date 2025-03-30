@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, flash, url_for
-
+from flask_sqlalchemy import SQLAlchemy
 # Classe Musica
 class Musica:
     def __init__(self, titulo, artista, genero):
@@ -33,6 +33,18 @@ usuarios = {user1.login: user1,
 app = Flask(__name__)
 
 app.secret_key = 'satorarepotenetoperarotas'
+
+# Configurando o banco de dados
+app.config['SQLALCHEMY_DATABASE_URI'] = '{SGBD}://{usuario}:{senha}@{servidor}/{DB}'.format(
+    SGBD = 'mysql+mysqlconnector',
+    usuario = 'tenet',
+    senha = 'tenet',
+    servidor = 'localhost',
+    DB = 'play_musica'
+)
+
+#instanciando o banco de dados
+db = SQLAlchemy(app)
 
 @app.route('/')
 def lista_musica():
