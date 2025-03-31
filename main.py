@@ -6,12 +6,19 @@ app = Flask(__name__)
 app.secret_key = 'satorarepotenetoperarotas'
 
 # Configurando o banco de dados
-app.config['SQLALCHEMY_DATABASE_URI'] = '{SGBD}://{usuario}:{senha}@{servidor}/{DB}'.format(
+'''app.config['SQLALCHEMY_DATABASE_URI'] = '{SGBD}://{usuario}:{senha}@{servidor}/{DB}'.format(
     SGBD = 'mysql+mysqlconnector',
     usuario = 'root',
     senha = 'tenet',
     servidor = 'localhost',
     DB = 'play_musica'
+)'''
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://{usuario}:{senha}@{servidor}/{DB}'.format(
+    usuario='root',
+    senha='tenet',
+    servidor='localhost',
+    DB='play_musica'
 )
 
 #instanciando o banco de dados
@@ -25,7 +32,7 @@ class Musica(db.Model):
     generoc = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
-        return '<Name %r>' % self.name
+        return '<Musica %r>' % self.tituloc
 
 class Usuario(db.Model):
     id_usuario = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -34,7 +41,7 @@ class Usuario(db.Model):
     senha_us = db.Column(db.String(10), nullable=False)
 
     def __repr__(self):
-        return '<Name %r>' % self.name
+        return '<Usuario %r>' % self.nome_us
     
 @app.route('/')
 def lista_musica():
@@ -58,13 +65,16 @@ def salvar_musica():
     artista = request.form['artista']
     genero = request.form['genero']
 
-    se_repetida = Musica.query.filter_by(tituloc=titulo)
+    se_repetida = Musica.query.filter_by(tituloc=titulo).first()
 
     if se_repetida:
         flash ('Música já cadastrada')
-        return redirect(url_for('/cadastro'))
+        return redirect(url_for('cadastro_musica'))
     
     nova = Musica(tituloc = titulo, artistac = artista, generoc = genero)
+
+    db.session.add(nova)
+    db.session.commit()
 
     return redirect('/')
 
@@ -74,18 +84,14 @@ def login():
 
 @app.route('/autenticar', methods = ['POST',])
 def autenticar():
-     
-    if request.form['usuario'] in usuarios and usuarios[request.form['usuario']].senha == request.form['senha']:
-   
-        user_encontrado = usuarios[request.form['usuario']]
 
+    user = Usuario.query.filter_by(login_us = request.form['usuario']).first()
 
-        session['usuario_in'] = request.form['usuario']
-
-        flash(f'Olá {user_encontrado.nome}, seja bem-vindo(a)')
-
-        return redirect('/')
-            
+    if user:
+        if request.form['senha'] == user.senha_us:
+            session['usuario_in'] = request.form['usuario']
+            flash(f'Olá {user.nome_us}, seja bem-vindo(a)')
+            return redirect('/') 
     else:
         flash('Usuário ou senha inválidos')
         return redirect(url_for('login'))
