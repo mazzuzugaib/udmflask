@@ -8,7 +8,7 @@ app.secret_key = 'satorarepotenetoperarotas'
 # Configurando o banco de dados
 app.config['SQLALCHEMY_DATABASE_URI'] = '{SGBD}://{usuario}:{senha}@{servidor}/{DB}'.format(
     SGBD = 'mysql+mysqlconnector',
-    usuario = 'tenet',
+    usuario = 'root',
     senha = 'tenet',
     servidor = 'localhost',
     DB = 'play_musica'
@@ -20,15 +20,15 @@ db = SQLAlchemy(app)
 #classes integradas com o bd
 class Musica(db.Model):
     id_musica = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    titulo = db.Column(db.String(50), nullable=False)
-    artista = db.Column(db.String(50), nullable=False)
-    genero = db.Column(db.String(50), nullable=False)
+    tituloc = db.Column(db.String(50), nullable=False)
+    artistac = db.Column(db.String(50), nullable=False)
+    generoc = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
         return '<Name %r>' % self.name
 
 class Usuario(db.Model):
-    id_usuarioo = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id_usuario = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nome_us = db.Column(db.String(40), nullable=False)
     login_us = db.Column(db.String(10), nullable=False)
     senha_us = db.Column(db.String(10), nullable=False)
@@ -41,7 +41,9 @@ def lista_musica():
     if 'usuario_in' not in session or session['usuario_in'] == None:
         return redirect(url_for('login'))
      
-    return render_template('lista_musica.html', titulo = 'Lista de músicas', musicas = lista_musicas)
+    lista = Musica.query.order_by(Musica.id_musica)
+
+    return render_template('lista_musica.html', titulo = 'Lista de músicas', musicas = lista)
 
 @app.route('/cadastro')
 def cadastro_musica():
@@ -56,9 +58,13 @@ def salvar_musica():
     artista = request.form['artista']
     genero = request.form['genero']
 
-    nova_musica = Musica(titulo, artista, genero)
+    se_repetida = Musica.query.filter_by(tituloc=titulo)
 
-    lista_musicas.append(nova_musica)
+    if se_repetida:
+        flash ('Música já cadastrada')
+        return redirect(url_for('/cadastro'))
+    
+    nova = Musica(tituloc = titulo, artistac = artista, generoc = genero)
 
     return redirect('/')
 
