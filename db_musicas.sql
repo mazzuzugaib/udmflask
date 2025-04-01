@@ -15,8 +15,6 @@ values ('Saturday Night', 'Elton John', 'Rock'),
     ('Billie Jean', 'Michael Jackson', 'Pop'),  
     ('Shape of You', 'Ed Sheeran', 'Pop');  
 
-delete from musica where id = 1;
-
 /*tabela dos usuarios*/
 create table usuario(
 	id int primary key auto_increment not null,
