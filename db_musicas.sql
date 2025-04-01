@@ -32,3 +32,5 @@ values ('Lorem Ipsum', 'lorem', 'ipsum'),
 
 alter table usuario
 add unique(login_us);
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'tenet';
+FLUSH PRIVILEGES;

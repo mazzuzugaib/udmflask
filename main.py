@@ -6,13 +6,14 @@ app = Flask(__name__)
 app.secret_key = 'satorarepotenetoperarotas'
 
 # Configurando o banco de dados
-app.config['SQLALCHEMY_DATABASE_URI'] = '{SGBD}://{usuario}:{senha}@{servidor}/{DB}'.format(
-    SGBD = 'mysql+mysqlconnector',
-    usuario = 'root',
-    senha = 'tenet',
-    servidor = 'localhost',
-    DB = 'play_musica'
-)
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    '{SGBD}://{usuario}:{senha}@{servidor}/{database}'.format(
+        SGBD = 'mysql+mysqlconnector',
+        usuario = 'root',
+        senha = 'tenet',
+        servidor = 'localhost',
+        database = 'play_musica'
+    )
 
 #instanciando o banco de dados
 db = SQLAlchemy(app)
@@ -25,10 +26,10 @@ class Musica(db.Model):
     genero = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
-        return '<Musica %r>' % self.tituloc
+        return '<Name %r>' % self.name
 
 class Usuario(db.Model):
-    id_usuario = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nome_us = db.Column(db.String(40), nullable=False)
     login_us = db.Column(db.String(10), nullable=False)
     senha_us = db.Column(db.String(10), nullable=False)
@@ -38,7 +39,7 @@ class Usuario(db.Model):
     
 @app.route('/')
 def lista_musica():
-    if 'usuario_in' not in session or session['usuario_in'] == None:
+    if session['usuario_in'] == None or 'usuario_in' not in session:
         return redirect(url_for('login'))
      
     lista = Musica.query.order_by(Musica.id_musica)
