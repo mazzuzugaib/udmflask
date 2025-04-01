@@ -6,19 +6,12 @@ app = Flask(__name__)
 app.secret_key = 'satorarepotenetoperarotas'
 
 # Configurando o banco de dados
-'''app.config['SQLALCHEMY_DATABASE_URI'] = '{SGBD}://{usuario}:{senha}@{servidor}/{DB}'.format(
+app.config['SQLALCHEMY_DATABASE_URI'] = '{SGBD}://{usuario}:{senha}@{servidor}/{DB}'.format(
     SGBD = 'mysql+mysqlconnector',
     usuario = 'root',
     senha = 'tenet',
     servidor = 'localhost',
     DB = 'play_musica'
-)'''
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://{usuario}:{senha}@{servidor}/{DB}'.format(
-    usuario='root',
-    senha='tenet',
-    servidor='localhost',
-    DB='play_musica'
 )
 
 #instanciando o banco de dados
@@ -92,9 +85,9 @@ def autenticar():
             session['usuario_in'] = request.form['usuario']
             flash(f'Olá {user.nome_us}, seja bem-vindo(a)')
             return redirect('/') 
-    else:
-        flash('Usuário ou senha inválidos')
-        return redirect(url_for('login'))
+        else:
+            flash('Usuário ou senha inválidos')
+            return redirect(url_for('login'))
 
 @app.route('/sair')
 def sair():
