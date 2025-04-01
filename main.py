@@ -20,9 +20,9 @@ db = SQLAlchemy(app)
 #classes integradas com o bd
 class Musica(db.Model):
     id_musica = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    tituloc = db.Column(db.String(50), nullable=False)
-    artistac = db.Column(db.String(50), nullable=False)
-    generoc = db.Column(db.String(50), nullable=False)
+    titulo = db.Column(db.String(50), nullable=False)
+    artista = db.Column(db.String(50), nullable=False)
+    genero = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
         return '<Musica %r>' % self.tituloc
@@ -58,13 +58,13 @@ def salvar_musica():
     artista = request.form['artista']
     genero = request.form['genero']
 
-    se_repetida = Musica.query.filter_by(tituloc=titulo).first()
+    se_repetida = Musica.query.filter_by(titulo=titulo).first()
 
     if se_repetida:
         flash ('Música já cadastrada')
         return redirect(url_for('cadastro_musica'))
     
-    nova = Musica(tituloc = titulo, artistac = artista, generoc = genero)
+    nova = Musica(titulo = titulo, artista = artista, genero = genero)
 
     db.session.add(nova)
     db.session.commit()
