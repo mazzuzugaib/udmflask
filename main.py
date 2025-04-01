@@ -38,8 +38,12 @@ class Usuario(db.Model):
         return '<Usuario %r>' % self.nome_us
     
 @app.route('/')
+#def lista_musica():
+    #if session['usuario_in'] == None or 'usuario_in' not in session:
+        #return redirect(url_for('login'))
+
 def lista_musica():
-    if session['usuario_in'] == None or 'usuario_in' not in session:
+    if session.get('usuario_in') is None:
         return redirect(url_for('login'))
      
     lista = Musica.query.order_by(Musica.id_musica)
