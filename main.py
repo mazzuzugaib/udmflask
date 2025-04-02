@@ -20,7 +20,7 @@ db = SQLAlchemy(app)
 
 #classes integradas com o bd
 class Musica(db.Model):
-    id_musica = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     titulo = db.Column(db.String(50), nullable=False)
     artista = db.Column(db.String(50), nullable=False)
     genero = db.Column(db.String(50), nullable=False)
@@ -39,14 +39,14 @@ class Usuario(db.Model):
     
 @app.route('/')
 #def lista_musica():
-    #if session['usuario_in'] == None or 'usuario_in' not in session:
-        #return redirect(url_for('login'))
+ #   if session['usuario_in'] == None or 'usuario_in' not in session:
+  #      return redirect(url_for('login'))
 
 def lista_musica():
     if session.get('usuario_in') is None:
         return redirect(url_for('login'))
      
-    lista = Musica.query.order_by(Musica.id_musica)
+    lista = Musica.query.order_by(Musica.id)
 
     return render_template('lista_musica.html', titulo = 'Lista de músicas', musicas = lista)
 
