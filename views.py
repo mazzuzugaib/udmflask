@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, session, flash, url_for
-import models
+from models import Musica, Usuario
 from main import app, db
 
 @app.route('/')
@@ -8,7 +8,7 @@ def lista_musica():
     if session.get('usuario_in') is None:
         return redirect(url_for('login'))
      
-    lista = models.Musica.query.order_by(models.Musica.id)
+    lista = Musica.query.order_by(Musica.id)
 
     return render_template('lista_musica.html', titulo = 'Lista de músicas', musicas = lista)
 
@@ -25,13 +25,13 @@ def salvar_musica():
     artista = request.form['artista']
     genero = request.form['genero']
 
-    se_repetida = models.Musica.query.filter_by(titulo=titulo).first()
+    se_repetida = Musica.query.filter_by(titulo=titulo).first()
 
     if se_repetida:
         flash ('Música já cadastrada')
         return redirect(url_for('cadastro_musica'))
     
-    nova = models.Musica(titulo = titulo, artista = artista, genero = genero)
+    nova = Musica(titulo = titulo, artista = artista, genero = genero)
 
     db.session.add(nova)
     db.session.commit()
@@ -45,7 +45,7 @@ def login():
 @app.route('/autenticar', methods = ['POST',])
 def autenticar():
 
-    user = models.Usuario.query.filter_by(login_us = request.form['usuario']).first()
+    user = Usuario.query.filter_by(login_us = request.form['usuario']).first()
 
     if user:
         if request.form['senha'] == user.senha_us:
