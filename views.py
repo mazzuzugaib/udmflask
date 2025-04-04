@@ -38,16 +38,45 @@ def salvar_musica():
 
     return redirect('/')
 
-@app.route('/editar')
-def editar_musica():
+@app.route('/editar/<int:id>')
+def editar_musica(id):
     if 'usuario_in' not in session or session['usuario_in'] == None:
         return redirect('/login')
+    
+    busca = Musica.query.filter_by(id = id).first()
+    
+    #musica = Musica.query.get(id)
+    #if musica is None:
+     #   flash('Música não encontrada')
+      #  return redirect('/')
 
-    return render_template('editar_musica.html', titulo = 'Editar música')
+    return render_template('editar_musica.html', titulo = 'Editar música', musica_edit = busca)
 
 @app.route('/atualizar_musica', methods = ['POST',])
 def atualizar():
-    pass
+    atual = Musica.query.filter_by(id = request.form['id_noform']).first()
+    atual.titulo = request.form['titulo']
+    atual.artista = request.form['artista']
+    atual.genero = request.form['genero']
+
+    db.session.add(atual)
+    db.session.commit()
+
+    return redirect('/')
+
+@app.route('/deletar/<int:id>')
+def excluir_musica(id):
+    if 'usuario_in' not in session or session['usuario_in'] == None:
+        return redirect('/login')
+    
+    Musica.query.filter_by(id = id).delete()
+
+    db.session.commit()
+
+    flash('Música excluída com sucesso!')
+    return redirect('/')
+
+    
 
 @app.route('/login')
 def login():

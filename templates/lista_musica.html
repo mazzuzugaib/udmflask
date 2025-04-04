@@ -1,6 +1,15 @@
 {% extends 'padrao.html' %}
 
 {% block conteudo %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+  <ul class="flash-messages">
+  {% for message in messages %}
+    <li>{{ message }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
 <h1>{{titulo}}</h1>
 <table class="table table-striped-columns">
   <thead class="table-dark">
@@ -14,10 +23,13 @@
   <tbody>
   {% for musica in musicas %}
       <tr>
-          <td>{{musica.titulo}}</td>
-          <td>{{musica.artista}}</td>
-          <td>{{musica.genero}}</td>
-          <td><a href="{{url_for('editar_musica')}}">Editar</a></td>
+        <td>{{musica.titulo}}</td>
+        <td>{{musica.artista}}</td>
+        <td>{{musica.genero}}</td>
+        <td>
+            <a href="{{url_for('editar_musica', id=musica.id)}}">Editar</a>
+            <a href="{{url_for('excluir_musica', id=musica.id)}}">Excluir</a></td>
+        </td>
       </tr>
   {% endfor %}
   </tbody>

@@ -4,21 +4,26 @@
     <h2>{{titulo}}</h2>
 
     <form method="POST" action="{{ url_for('atualizar') }}">
-        <div class='input-group mb-3'>
-            <label class='input-group-text' id="inputGroup-sizing-default">Música:</label>
-            <input type="text"  name="titulo" id="titulo" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-        </div>
-        <br>
-        <div class="input-group mb-3">
-            <label class="input-group-text" id="inputGroup-sizing-default">Artista:</label>
-            <input type="text"  name="artista" id="artista" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-        </div>
-        <br>
-        <div class="input-group mb-3">
-            <label class="input-group-text" id="inputGroup-sizing-default">Gênero:</label>
-            <input type="text"  name="genero" id="genero" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-        </div>
-        <br>
-        <button type="submit" class="btn btn-success">Salvar</button>
+        <fieldset>
+            <!-- input escondido so para pegar o id da musica -->
+            <input type="hidden" name="id_noform" id="id_noform" value="{{musica_edit.id}}">
+            <div class='input-group mb-3'>
+                <label class='input-group-text' id="inputGroup-sizing-default">Música:</label>
+                <input type="text"  name="titulo" id="titulo" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{musica_edit.titulo}}">
+            </div>
+            <br>
+            <div class="input-group mb-3">
+                <label class="input-group-text" id="inputGroup-sizing-default">Artista:</label>
+                <input type="text"  name="artista" id="artista" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{musica_edit.artista}}">
+            </div>
+            <br>
+            <div class="input-group mb-3">
+                <label class="input-group-text" id="inputGroup-sizing-default">Gênero:</label>
+                <input type="text"  name="genero" id="genero" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{musica_edit.genero}}">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success">Confirmar edição</button>
+        </fieldset>
     </form>
+    
 {% endblock %}
