@@ -38,6 +38,17 @@ def salvar_musica():
 
     return redirect('/')
 
+@app.route('/editar')
+def editar_musica():
+    if 'usuario_in' not in session or session['usuario_in'] == None:
+        return redirect('/login')
+
+    return render_template('editar_musica.html', titulo = 'Editar música')
+
+@app.route('/atualizar_musica', methods = ['POST',])
+def atualizar():
+    pass
+
 @app.route('/login')
 def login():
     return render_template('login.html')
