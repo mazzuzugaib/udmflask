@@ -1,3 +1,5 @@
+import os
+
 SECRET_KEY = 'satorarepotenetoperarotas'
 
 # Configurando o banco de dados
@@ -9,3 +11,5 @@ SQLALCHEMY_DATABASE_URI = \
         servidor = 'localhost',
         database = 'play_musica'
     )
+
+UPLOAD = os.path.dirname(os.path.abspath(__file__)) + '/uploads'

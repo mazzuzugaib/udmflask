@@ -36,6 +36,14 @@ def salvar_musica():
     db.session.add(nova)
     db.session.commit()
 
+#para pegar a imagem
+    imagem = request.files['imagem']
+#INDICANDO A PASTA QUE ESTÁ DESCRITA EM CONFIG.PY
+    upload = app.config['UPLOAD']
+
+    imagem.save(f'{upload}/album{nova.id}.jpg')
+
+
     return redirect('/')
 
 @app.route('/editar/<int:id>')
