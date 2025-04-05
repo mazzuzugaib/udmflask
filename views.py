@@ -1,6 +1,8 @@
-from flask import render_template, request, redirect, session, flash, url_for
+from flask import render_template, request, redirect, session, flash, url_for, send_from_directory
 from models import Musica, Usuario
 from main import app, db
+from definicoes import recupera
+import time
 
 @app.route('/')
 
@@ -41,7 +43,19 @@ def salvar_musica():
 #INDICANDO A PASTA QUE ESTÁ DESCRITA EM CONFIG.PY
     upload = app.config['UPLOAD']
 
-    imagem.save(f'{upload}/album{nova.id}.jpg')
+#quebrando o nome da imagem para poder salvar em jpg e png
+#abaixo, o nome do arquivo é separado da extensão
+#ex: album1.jpg -> album1
+    arquivo = imagem.filename.split('.')
+#pegando apenas a extensão do arquivo
+#ex: jpg
+    extensao = arquivo[-1]
+#pegando o nome do arquivo sem a extensão e somando a extensão, que pode ser jpg ou png
+#ex: arquivo_completo = f'algum{10}.{jpg ou png}'
+    momento = time.time()
+    arquivo_completo = f'album{nova.id}_{momento}.{extensao}'
+
+    imagem.save(f'{upload}/{arquivo_completo}')
 
 
     return redirect('/')
@@ -52,13 +66,10 @@ def editar_musica(id):
         return redirect('/login')
     
     busca = Musica.query.filter_by(id = id).first()
-    
-    #musica = Musica.query.get(id)
-    #if musica is None:
-     #   flash('Música não encontrada')
-      #  return redirect('/')
 
-    return render_template('editar_musica.html', titulo = 'Editar música', musica_edit = busca)
+    album = recupera(id)
+
+    return render_template('editar_musica.html', titulo = 'Editar música', musica_edit = busca, album_musica = album)
 
 @app.route('/atualizar_musica', methods = ['POST',])
 def atualizar():
@@ -69,6 +80,18 @@ def atualizar():
 
     db.session.add(atual)
     db.session.commit()
+
+    nova_imagem = request.files['imagem_nova']
+
+    upload = app.config['UPLOAD']
+
+    arquivo = nova_imagem.filename.split('.')
+    extensao = arquivo[-1]
+
+    momento = time.time()
+    arquivo_completo = f'album{atual.id}_{momento}.{extensao}'
+
+    nova_imagem.save(f'{upload}/{arquivo_completo}')
 
     return redirect('/')
 
@@ -108,3 +131,9 @@ def autenticar():
 def sair():
     session['usuario_in'] = None
     return redirect ('/login')
+
+@app.route('/uploads/<nome_imagem>')
+def imagem(nome_imagem):
+    return send_from_directory('uploads', nome_imagem)
+
+  

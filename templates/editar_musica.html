@@ -3,8 +3,17 @@
     {% block conteudo %}
     <h2>{{titulo}}</h2>
 
-    <form method="POST" action="{{ url_for('atualizar') }}">
+    <form method="POST" action="{{ url_for('atualizar') }}" enctype="multipart/form-data">
         <fieldset>
+
+            <img src="{{ url_for('imagem', nome_imagem=album_musica) }}" width="100" height="100">
+            <div class='input-group mb-3'>
+                <label for = 'imagem_nova' class='form-label mb-3'>
+                    Selecione uma nova imagem para o álbum:
+                </label>
+                <input type="file"  name="imagem_nova" id="imagem" accept=".jpg, .jpeg, .png" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            
             <!-- input escondido so para pegar o id da musica -->
             <input type="hidden" name="id_noform" id="id_noform" value="{{musica_edit.id}}">
             <div class='input-group mb-3'>
