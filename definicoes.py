@@ -1,5 +1,15 @@
 import os
 from main import app
+from flask_wtf import FlaskForm
+from wtforms import StringField, validators, SubmitField
+
+
+class FormularioMusica(FlaskForm):
+    titulo = StringField('Nome da música', [validators.DataRequired(), validators.length(min=1, max=50)])
+    artista = StringField('Artista', [validators.DataRequired(), validators.length(min=1, max=50)])
+    genero = StringField('Álbum', [validators.DataRequired(), validators.length(min=1, max=50)])
+    cadastrar = SubmitField('Cadastrar')
+
 
 def recupera(id):
     for nome_imagem in os.listdir(app.config['UPLOAD']):
@@ -14,4 +24,9 @@ def recupera(id):
             return nome_imagem
         
     return '404.jpg'
+
+def deleta(id):
+    deletada = recupera(id)
+    if deletada != '404.jpg':
+        os.remove(os.path.join(app.config['UPLOAD'], deletada))
 

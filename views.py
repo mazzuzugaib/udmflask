@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_from_directory
 from models import Musica, Usuario
 from main import app, db
-from definicoes import recupera
+from definicoes import recupera, deleta
 import time
 
 @app.route('/')
@@ -92,6 +92,10 @@ def atualizar():
     arquivo_completo = f'album{atual.id}_{momento}.{extensao}'
 
     nova_imagem.save(f'{upload}/{arquivo_completo}')
+
+     #deletando a imagem antiga
+    deleta(atual.id)
+   
 
     return redirect('/')
 
