@@ -8,21 +8,23 @@
             <label for = 'imagem' class='form-label'></label>
             <input type="file"  name="imagem" id="imagem" accept=".jpg, .jpeg, .png" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
         </div>
-        <div class='input-group mb-3'>
-            <label class='input-group-text' id="inputGroup-sizing-default">Música:</label>
-            <input type="text"  name="titulo" id="titulo" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        <div class='mb-3'>
+           {{ form.titulo.label(class='form-label') }}
+           {{ form.titulo(class='form-control') }}
         </div>
         <br>
-        <div class="input-group mb-3">
-            <label class="input-group-text" id="inputGroup-sizing-default">Artista:</label>
-            <input type="text"  name="artista" id="artista" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        <div class="mb-3">
+            {{ form.artista.label(class='form-label') }}
+            {{ form.artista(class='form-control') }}
         </div>
         <br>
-        <div class="input-group mb-3">
-            <label class="input-group-text" id="inputGroup-sizing-default">Gênero:</label>
-            <input type="text"  name="genero" id="genero" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        <div class="mb-3">
+           {{ form.genero.label(class='form-label') }}
+           {{ form.genero(class='form-control') }}
         </div>
         <br>
-        <button type="submit" class="btn btn-success">Salvar</button>
+        <div class="mb-3">
+            {{ form.cadastrar(class='btn btn-primary') }}
+        </div>
     </form>
 {% endblock %}

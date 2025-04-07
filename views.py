@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_from_directory
 from models import Musica, Usuario
 from main import app, db
-from definicoes import recupera, deleta
+from definicoes import recupera, deleta, FormularioMusica
 import time
 
 @app.route('/')
@@ -18,7 +18,8 @@ def lista_musica():
 def cadastro_musica():
     if 'usuario_in' not in session or session['usuario_in'] == None:
         return redirect('/login')
-    return render_template('cadastro_musica.html', titulo = 'Cadastro de músicas')
+    formulario = FormularioMusica()
+    return render_template('cadastro_musica.html', titulo = 'Cadastro de músicas', form=formulario)
 
 @app.route('/salvar_musica', methods = ['POST',])
 def salvar_musica():
