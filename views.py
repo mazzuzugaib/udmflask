@@ -69,9 +69,14 @@ def editar_musica(id):
     
     busca = Musica.query.filter_by(id = id).first()
 
+    form = FormularioMusica()
+    form.titulo.data = busca.titulo
+    form.artista.data = busca.artista
+    form.genero.data = busca.genero
+
     album = recupera(id)
 
-    return render_template('editar_musica.html', titulo = 'Editar música', musica_edit = busca, album_musica = album)
+    return render_template('editar_musica.html', titulo = 'Editar música', musica_edit = form, album_musica = album)
 
 @app.route('/atualizar_musica', methods = ['POST',])
 def atualizar():
