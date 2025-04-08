@@ -41,22 +41,23 @@ def salvar_musica():
 
 #para pegar a imagem
     imagem = request.files['imagem']
-#INDICANDO A PASTA QUE ESTÁ DESCRITA EM CONFIG.PY
-    upload = app.config['UPLOAD']
+    if imagem:
+        #INDICANDO A PASTA QUE ESTÁ DESCRITA EM CONFIG.PY
+        upload = app.config['UPLOAD']
 
-#quebrando o nome da imagem para poder salvar em jpg e png
-#abaixo, o nome do arquivo é separado da extensão
-#ex: album1.jpg -> album1
-    arquivo = imagem.filename.split('.')
-#pegando apenas a extensão do arquivo
-#ex: jpg
-    extensao = arquivo[-1]
-#pegando o nome do arquivo sem a extensão e somando a extensão, que pode ser jpg ou png
-#ex: arquivo_completo = f'algum{10}.{jpg ou png}'
-    momento = time.time()
-    arquivo_completo = f'album{nova.id}_{momento}.{extensao}'
+    #quebrando o nome da imagem para poder salvar em jpg e png
+    #abaixo, o nome do arquivo é separado da extensão
+    #ex: album1.jpg -> album1
+        arquivo = imagem.filename.split('.')
+    #pegando apenas a extensão do arquivo
+    #ex: jpg
+        extensao = arquivo[-1]
+    #pegando o nome do arquivo sem a extensão e somando a extensão, que pode ser jpg ou png
+    #ex: arquivo_completo = f'algum{10}.{jpg ou png}'
+        momento = time.time()
+        arquivo_completo = f'album{nova.id}_{momento}.{extensao}'
 
-    imagem.save(f'{upload}/{arquivo_completo}')
+        imagem.save(f'{upload}/{arquivo_completo}')
 
 
     return redirect('/')
