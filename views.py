@@ -80,28 +80,32 @@ def editar_musica(id):
 
 @app.route('/atualizar_musica', methods = ['POST',])
 def atualizar():
-    atual = Musica.query.filter_by(id = request.form['id_noform']).first()
-    atual.titulo = request.form['titulo']
-    atual.artista = request.form['artista']
-    atual.genero = request.form['genero']
+    form = FormularioMusica(request.form)
 
-    db.session.add(atual)
-    db.session.commit()
+    if form.validade_on_submit():
 
-    nova_imagem = request.files['imagem_nova']
+        atual = Musica.query.filter_by(id = request.form['id_noform']).first()
+        atual.titulo = form.titulo.data
+        atual.artista = form.artista.data
+        atual.genero = form.genero.data
 
-    upload = app.config['UPLOAD']
+        db.session.add(atual)
+        db.session.commit()
 
-    arquivo = nova_imagem.filename.split('.')
-    extensao = arquivo[-1]
+        nova_imagem = request.files['imagem_nova']
 
-    momento = time.time()
-    arquivo_completo = f'album{atual.id}_{momento}.{extensao}'
+        upload = app.config['UPLOAD']
 
-    nova_imagem.save(f'{upload}/{arquivo_completo}')
+        arquivo = nova_imagem.filename.split('.')
+        extensao = arquivo[-1]
 
-     #deletando a imagem antiga
-    deleta(atual.id)
+        momento = time.time()
+        arquivo_completo = f'album{atual.id}_{momento}.{extensao}'
+
+        nova_imagem.save(f'{upload}/{arquivo_completo}')
+
+        #deletando a imagem antiga
+        deleta(atual.id)
    
 
     return redirect('/')
