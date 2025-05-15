@@ -4,6 +4,7 @@
     <h2>Cadastro de música</h2>
 
     <form method="POST" action="/salvar_musica" enctype="multipart/form-data">
+        {{ form.csrf_token }}
         <div class='input-group mb-3'>
             <label for = 'imagem' class='form-label'></label>
             <input type="file"  name="imagem" id="imagem" accept=".jpg, .jpeg, .png" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
